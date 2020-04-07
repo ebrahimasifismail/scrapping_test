@@ -58,37 +58,46 @@ class MyWorker(Worker):
         super().__init__(kwargs)
     
     def start_process(self, matches, limit):
+        
         result = list()
         completed_snippet = list()
+        
         for item in range(1, limit):
+            
             if self.counter < limit:
+                
                 url = self.base_url.format(page_num=str(item))
                 page_source = self.get_raw_html(url)
                 gist_snippets = self.get_html_elements(page_source)
+                
                 for snippet in gist_snippets:
+                    
                     if snippet not in completed_snippet:
                         self.counter += 1
                         snippet_str = html.tostring(snippet).decode("utf8")
                         matched_regex = list()
                         completed_snippet.append(snippet)
+                        
                         for match in matches:
                             raw_match = self.get_raw_string(match)
                             match_string = self.match_string_regex(snippet_str, raw_match)
+                            
                             if match_string:
                                 matched_regex.append(match)
-                                snippet_link = self.get_snippet_link(snippet)
-                                result_dict = dict()
-                                result_dict['url'] = snippet_link
-                                result_dict['matches'] = matched_regex
-                                result.append(result_dict)
                             else:
                                 continue
+                        
+                        if len(matched_regex) > 0:
+                            snippet_link = self.get_snippet_link(snippet)
+                            result_dict = dict()
+                            result_dict['url'] = snippet_link
+                            result_dict['matches'] = matched_regex
+                            result.append(result_dict)
                     else:
-                        continue
-                    
+                        continue    
             else:
                 print("reached limit...................")
-        return result 
+                return result 
 
     def get_snippet_link(self, snippet):
         link = snippet.cssselect('div.js-gist-file-update-container')[0].cssselect('a.link-overlay')[0].get('href')
