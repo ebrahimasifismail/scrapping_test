@@ -1,10 +1,7 @@
-import sys
-sys.path.append('/home/ismail/Desktop/TEST_TASK/new_worker_plugin_template/tfw_myworker')
-
-import unittest
-import requests
-
+import sys, os, unittest, requests
+sys.path.append(os.path.abspath('..'))
 from myworker import MyWorker
+
 
 class TestCase(unittest.TestCase):
 
