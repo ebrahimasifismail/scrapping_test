@@ -7,4 +7,5 @@ to run:
 inside shell 
 
 > from myworker import MyWorker
+
 > MyWorker(['test', 'tester'], 100).run()
