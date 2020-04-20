@@ -6,6 +6,14 @@ to run:
 
 inside shell 
 
+For gist 
+
 > from myworker import MyWorker
 
 > MyWorker(['test', 'tester'], 100).run()
+
+For pastebin 
+
+> from pastebin import  PasteBinSpider
+>
+> PasteBinSpider(['test', 'untitled', 'python']).run()
